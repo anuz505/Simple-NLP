@@ -1,4 +1,6 @@
 import string
+from collections import Counter
+import matplotlib.pyplot as plt
 text = open("read.txt" ,encoding="utf-8").read()
 lowercase = text.lower()
 cleaned_text = lowercase.translate(str.maketrans('','',string.punctuation))
@@ -17,7 +19,7 @@ final_words = []
 for word in tokenized_words:
     if(word not in stop_words):
         final_words.append(word)
-print (final_words) 
+
 
 # NLP Emotion Algorithm
 # 1) Check if the word in the final word list is also present in emotion.txt
@@ -36,5 +38,13 @@ with open('emotion.txt', 'r') as file:
 
         if word in final_words:
             emotion_list.append(emotion)
+w = Counter(emotion_list)
+print(w)
 
-print(emotion_list)
+# Plotting the emotions on the graph
+
+fig, ax1 = plt.subplots()
+ax1.bar(w.keys(), w.values())
+fig.autofmt_xdate()
+plt.savefig('graph.png')
+plt.show()
